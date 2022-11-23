@@ -4,8 +4,15 @@ services:
         image: "traefik:2.9"
         container_name: "traefik"
         command:
-            --providers.docker=true
-            --providers.docker.exposedByDefault=false
+            - "--log.level=ERROR"
+            - "--accessLog"
+            - "--ping=true"
+            - "--api"
+            - "--api.dashboard=true"
+            - "--api.insecure=true"
+            - "--providers.docker=true"
+            - "--providers.docker.exposedByDefault=false"
+            - "--entrypoints.http.address=:80"
         ports:
             - "80:80"
             - "8080:8080"
@@ -13,6 +20,12 @@ services:
             - traefik-public
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
+        labels:
+            - traefik.enable=true
+            - traefik.docker.network=traefik-public
+            - traefik.http.routers.traefik.entrypoints=http
+            - traefik.http.routers.traefik.rule=Host(`traefik.localhost`)
+            - traefik.http.services.traefik.loadBalancer.server.port=80
 
     frontend-node:
         build:
@@ -25,12 +38,16 @@ services:
             - ./:/app:rw
         command: sh -c "until [ -f .ready ] ; do sleep 1 ; done && yarn start"
         tty: true
+        networks:
+            - traefik-public
 
     frontend-node-cli:
         build:
             context: docker/development/node
         volumes:
             - ./:/app
+        networks:
+            - traefik-public
 
     frontend:
         build:
@@ -40,9 +57,9 @@ services:
         labels:
             - traefik.enable=true
             - traefik.docker.network=traefik-public
-            - traefik.http.routers.react.entrypoints=http
-            - traefik.http.routers.react.rule=Host(`frontend.localhost`) || Host(`www.frontend.localhost`)
-            - traefik.http.services.react.loadBalancer.server.port=80
+            - traefik.http.routers.frontend.entrypoints=http
+            - traefik.http.routers.frontend.rule=Host(`frontend.localhost`) || Host(`www.frontend.localhost`)
+            - traefik.http.services.frontend.loadBalancer.server.port=80
 
 networks:
     traefik-public:

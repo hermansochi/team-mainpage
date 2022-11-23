@@ -62,7 +62,8 @@ frontend-test:
 build: build-frontend
 
 build-frontend:
-	docker --log-level=debug build --pull --file=docker/production/nginx/Dockerfile --tag=${REGISTRY}/frontend:${IMAGE_TAG} frontend
+	#docker --log-level=debug build --pull --file=docker/production/nginx/Dockerfile --tag=${REGISTRY}/frontend:${IMAGE_TAG} frontend
+	docker --log-level=warning build --pull --file=docker/production/nginx/Dockerfile --tag=${REGISTRY}/frontend:${IMAGE_TAG} frontend
 
 
 try-build:
