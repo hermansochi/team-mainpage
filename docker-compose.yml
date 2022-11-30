@@ -1,32 +1,5 @@
 version: "3.9"
 services:
-    traefik:
-        image: "traefik:2.9"
-        container_name: "traefik"
-        command:
-            - "--log.level=ERROR"
-            - "--accessLog"
-            - "--ping=true"
-            - "--api"
-            - "--api.dashboard=true"
-            - "--api.insecure=true"
-            - "--providers.docker=true"
-            - "--providers.docker.exposedByDefault=false"
-            - "--entrypoints.http.address=:80"
-        ports:
-            - "80:80"
-            - "8080:8080"
-        networks:
-            - traefik-public
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
-        labels:
-            - traefik.enable=true
-            - traefik.docker.network=traefik-public
-            - traefik.http.routers.traefik.entrypoints=http
-            - traefik.http.routers.traefik.rule=Host(`traefik.localhost`)
-            - traefik.http.services.traefik.loadBalancer.server.port=80
-
     frontend-node:
         build:
             context: docker/development/node
@@ -63,4 +36,4 @@ services:
 
 networks:
     traefik-public:
-        name: traefik-public
+        external: true
