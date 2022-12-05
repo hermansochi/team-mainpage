@@ -9,7 +9,7 @@ export default function App() {
     <Canvas camera={{ position: [0, 0, 1] }}>
       <Stars />
     </Canvas>
-  )
+  );
 }
 
 function Stars(props) {

@@ -8,11 +8,11 @@ const Iso8601toString = (date) => {
 const RepoInfo = (props) => {
 		return (
 			<div>
-					{ Iso8601toString(props.github_pushed_at) }
-					&nbsp;<a href={props.html_url} title={`${props.description}`}>
+					&nbsp;&nbsp;&nbsp;{ Iso8601toString(props.github_pushed_at) }
+					&nbsp;&nbsp;&nbsp;<a href={props.html_url} title={`${props.description}`}>
 						{ props.name }
 					</a>
-					&nbsp;({props.size}&#13189;/{props.forks}&#9282;/{props.watchers_count}&#8902;)
+					&nbsp;&nbsp;&nbsp;({props.size}&#13189;/{props.forks}&#9282;/{props.watchers_count}&#8902;)
 			</div>
 		);
 

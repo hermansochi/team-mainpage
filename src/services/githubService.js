@@ -11,6 +11,16 @@ export default class githubService {
 		});
 	}
 
+	static async getCommits(page, perPage, sort) {
+		return $api.get('/github/commits', {
+			params: {
+				page: page,
+				per_page: perPage,
+				sort: sort
+			}
+		});
+	}
+
 	/*
 	static async hideLdapUser(id, hide) {
 		return $api.patch(`/ldapusers/${id}`, {id: id, hide: hide});
