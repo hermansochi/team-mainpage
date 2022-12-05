@@ -2,7 +2,7 @@
 import React from 'react';
 import { useEffect } from 'react';
 import * as THREE from 'three';
-import TWEEN from 'tween.js';
+import TWEEN from '@tweenjs/tween.js';
 import TrackballControls from 'three-trackballcontrols';
 //import OrbitControls from 'orbit-controls-es6';
 import { CSS3DRenderer, CSS3DObject } from 'three-css3drenderer';
