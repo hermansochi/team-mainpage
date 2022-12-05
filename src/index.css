@@ -24,7 +24,12 @@ body {
 a {
   pointer-events: all;
   color: #ddd;
+  transition: .1s ease-in-out;
   text-decoration: none;
+}
+
+a:hover{
+  color: rgb(226, 134, 218);
 }
 
 svg {

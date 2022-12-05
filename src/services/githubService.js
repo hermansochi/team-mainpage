@@ -21,8 +21,23 @@ export default class githubService {
 		});
 	}
 
-	/*
-	static async hideLdapUser(id, hide) {
-		return $api.patch(`/ldapusers/${id}`, {id: id, hide: hide});
-	} */
+	static async getContributors(page, perPage, sort) {
+		return $api.get('/github/contributors', {
+			params: {
+				page: page,
+				per_page: perPage,
+				sort: sort
+			}
+		});
+	}
+
+	static async getCollaborators(page, perPage, sort) {
+		return $api.get('/github/collaborators', {
+			params: {
+				page: page,
+				per_page: perPage,
+				sort: sort
+			}
+		});
+	}
 }

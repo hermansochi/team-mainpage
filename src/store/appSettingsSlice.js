@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
 	colorTheme: 'emerald'
-}
+};
 
 const appSettingsSlice = createSlice({
 	name: 'settings',
