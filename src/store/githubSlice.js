@@ -25,6 +25,18 @@ export const fetchCommits = createAsyncThunk(
 	}
 );
 
+export const fetchCommitsByDay = createAsyncThunk(
+	'github/fetchCommitsByDay',
+	async ({page, perPage, sort}, {rejectWithValue}) => {
+		try {
+			const response = await githubService.getCommits(page, perPage, sort);
+			return response.data;
+		} catch (error) {
+				return rejectWithValue(error);
+		}
+	}
+);
+
 export const fetchContributors = createAsyncThunk(
 	'github/fetchContributors',
 	async ({page, perPage, sort}, {rejectWithValue}) => {
@@ -51,7 +63,7 @@ export const fetchCollaborators = createAsyncThunk(
 
 const distinctContributors = (data) => {
 	return Object.values(data.reduce((acc,curr)=>{
-		(acc[curr.login] = acc[curr.login] || {id: curr.id, login: curr.login, html_url: curr.html_url,  contributions: 0}).contributions += curr.contributions;
+		(acc[curr.login] = acc[curr.login] || {id: curr.id, login: curr.login, avatar_url: curr.avatar_url, html_url: curr.html_url,  contributions: 0}).contributions += curr.contributions;
 		return acc;
 	}, {}));
 };
@@ -69,6 +81,7 @@ const initialState = {
 	commits: [],
 	contributors: [],
 	collaborators: [],
+	commitsByDay: [],
 	reposStatus: null,
 	reposError: null,
 	commitsStatus: null,
@@ -77,6 +90,8 @@ const initialState = {
 	contributorsError: null,
 	collaboratorsStatus: null,
 	collaboratorsError: null,
+	commitsByDayStatus: null,
+	commitsByDayError: null,
 };
 
 const githubSlice = createSlice({
@@ -146,6 +161,19 @@ const githubSlice = createSlice({
 		builder.addCase(fetchCollaborators.rejected, (state, action) => {
 			state.collaboratorsStatus = 'rejected';
 			state.collaboratorsError = action.payload.response.data;
+		});
+		builder.addCase(fetchCommitsByDay.pending, (state) => {
+			state.commitsByDayStatus = 'loading';
+			state.commitsByDayError = null;
+		});
+		builder.addCase(fetchCommitsByDay.fulfilled, (state, action) => {
+				state.commitsByDayStatus = 'resolved';
+				state.commitsByDayError = null;
+				state.commitsByDay = action.payload.data;
+		});
+		builder.addCase(fetchCommitsByDay.rejected, (state, action) => {
+			state.commitsByDayStatus = 'rejected';
+			state.commitsByDayError = action.payload.response.data;
 		});
 	}
 });

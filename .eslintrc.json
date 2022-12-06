@@ -35,6 +35,7 @@
         "semi": 1,
         "react/prop-types": 0,
         "react/no-unknown-property": 1,
-        "no-unused-vars": 1
+        "no-unused-vars": 1,
+        "react/no-children-prop": 1
     }
 }
