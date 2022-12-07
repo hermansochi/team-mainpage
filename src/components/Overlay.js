@@ -36,14 +36,22 @@ const Overlay = () => {
 						</div>
 					)
 					:
-						null
+					(
+						<div style={{ position: 'absolute', top: 40, left: 40, fontSize: '13px' }}>
+							<h1 style={{ margin: 0, padding: 0, fontSize: '3em', fontWeight: 900, letterSpacing: '-0.05em' }}>
+								PRESS LMB & DRAG
+							</h1>
+						</div>
+					)
 				}
 				
 				{ (location.pathname === '/') ?  
 					(
 						<div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate3d(-50%,-50%,0)' }}>
 							<Link to="/stats">
-								<h1 style={{ margin: 0, padding: 0, fontSize: '10em', fontWeight: 900, letterSpacing: '-0.05em' }}>HERMAN.TEAM</h1>
+								<h1 style={{ margin: 0, padding: 0, fontSize: '10em', fontWeight: 900, letterSpacing: '-0.05em' }}>
+									HERMAN.TEAM
+								</h1>
 							</Link>
 							<div className='avatar__container'>
 								<ul className='avatar__list'>
@@ -59,33 +67,46 @@ const Overlay = () => {
 					)
 					:
 					(
-						<div style={{ position: 'absolute', top: 80, left: '50%', transform: 'translate3d(-50%,-50%,0)' }}>
+						<div style={{ position: 'absolute', top: 40, right: 40, fontSize: '13px' }}>
 							<Link to="/">
-								<h1 style={{ margin: 0, padding: 0, fontSize: '5em', fontWeight: 900, letterSpacing: '-0.05em' }}>BACK</h1>
+								<h1 style={{ margin: 0, padding: 0, fontSize: '3em', fontWeight: 900, letterSpacing: '-0.05em' }}>
+								&lt;&lt;BACK
+								</h1>
 							</Link>
 						</div>
 					)
 				}
 
-				<div style={{ position: 'absolute', bottom: 40, left: 40, fontSize: '13px' }}>
-					{(repos.length > 10) ? 10 : repos.length} last changed repos:
+				{ (location.pathname === '/') ?
+					(
+					<div style={{ position: 'absolute', bottom: 40, left: 40, fontSize: '13px' }}>
+						{(repos.length > 10) ? 10 : repos.length} last changed repos:
+						{
+							(repos.length > 0) ?
+								repos.slice(0,10).map((item) => <RepoInfo key={item.id} {...item} />)
+							:
+								null
+						}
+					</div>
+					)
+					: null
+				}
+				{ (location.pathname === '/') ?
+				(
+					<div style={{ position: 'absolute', bottom: 40, right: 40, fontSize: '13px' }}>
 					{
-						(repos.length > 0) ?
-							repos.slice(0,10).map((item) => <RepoInfo key={item.id} {...item} />)
-						:
-							null
-					}
-				</div>
-				<div style={{ position: 'absolute', bottom: 40, right: 40, fontSize: '13px' }}>
-				{
-						(commits.length > 0) ?
-							(<Link to="/commits">
-								<LastCommitInfo key={commits[0].id} {...commits[0]} />
-							</Link>)
-						:
-							null
-					}
-				</div>
+							(commits.length > 0) ?
+								(<Link to="/commits">
+									<LastCommitInfo key={commits[0].id} {...commits[0]} />
+								</Link>)
+							:
+								null
+						}
+					</div>
+				)
+				:
+				null
+				}
 			</div>
 		);
 
