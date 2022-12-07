@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchRepos,
         fetchCommits,
+        fetchCommitsStats,
         fetchCommitsByDay,
         fetchContributors,
         fetchCollaborators } from './store/githubSlice';
@@ -15,6 +16,7 @@ export default function App() {
   const dispatch = useDispatch();
 	const { reposStatus, 
           commitsStatus,
+          commitsStatsStatus,
           commitsByDayStatus,
           contributorsStatus,
           collaboratorsStatus } = useSelector((state) => state.github);
@@ -33,6 +35,9 @@ export default function App() {
 		}
 		if (commitsByDayStatus !== 'loading') {
 			dispatch(fetchCommitsByDay({page: 1, perPage:300, sort:'-date'}));
+		}
+    if (commitsStatsStatus !== 'loading') {
+			dispatch(fetchCommitsStats());
 		}
   }, [dispatch]);
   return (

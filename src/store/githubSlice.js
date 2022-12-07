@@ -61,6 +61,18 @@ export const fetchCollaborators = createAsyncThunk(
 	}
 );
 
+export const fetchCommitsStats = createAsyncThunk(
+	'github/fetchCommitsStats',
+	async (_, {rejectWithValue}) => {
+		try {
+			const response = await githubService.getCommitsStats();
+			return response.data;
+		} catch (error) {
+				return rejectWithValue(error);
+		}
+	}
+);
+
 const distinctContributors = (data) => {
 	return Object.values(data.reduce((acc,curr)=>{
 		(acc[curr.login] = acc[curr.login] || {id: curr.id, login: curr.login, avatar_url: curr.avatar_url, html_url: curr.html_url,  contributions: 0}).contributions += curr.contributions;
@@ -76,12 +88,63 @@ const distinctCollaborators = (data) => {
 };
 
 
+const prepareCommitsStats = (state) => {
+
+	const currentYear = new Date().getFullYear();
+	const currentMonth = new Date().getMonth();
+	const currentDay = new Date().getDate();
+	const days = Array.from({length: 90}, (_, i) => {
+		return {date: new Date(currentYear, currentMonth, currentDay - (i - 1)).toISOString().substring(0, 10),
+			commits: 0,
+			authors: null};
+	});
+	
+	state.commitsStats = days;
+};
+
+function mergeArrayObjectsByDate(arr1, arr2) {
+	let start = 0;
+  let merge = [];
+
+  while(start < arr1.length) {
+    if(arr1[start].date === arr2[start].date) {
+         //pushing the merged objects into array
+        merge.push({...arr1[start],...arr2[start]});
+    }
+    //incrementing start value
+    start = start + 1;
+  }
+  return merge;
+}
+
+
+const countCommitsStats = (oldState, data) => {
+	let obj = Object.values(data.reduce((acc,curr)=>{
+		(acc[curr.date] = acc[curr.date] || {date: curr.date, commits: 0, authors: null}).commits += curr.commits;
+		return acc;
+	}, {}));
+
+	const mergedArray = [...obj, ...oldState];
+
+	let set = new Set();
+	let unionArray = mergedArray.filter((item) => {
+			if (!set.has(item.date)) {
+					set.add(item.date);
+					return true;
+			}
+			return false;
+	}, set);
+
+	return unionArray;
+};
+
 const initialState = {
 	repos: [],
 	commits: [],
 	contributors: [],
 	collaborators: [],
 	commitsByDay: [],
+	commitsStats: [],
 	reposStatus: null,
 	reposError: null,
 	commitsStatus: null,
@@ -92,6 +155,8 @@ const initialState = {
 	collaboratorsError: null,
 	commitsByDayStatus: null,
 	commitsByDayError: null,
+	commitsStatsStatus: null,
+	commitsStatsError: null,
 };
 
 const githubSlice = createSlice({
@@ -174,6 +239,20 @@ const githubSlice = createSlice({
 		builder.addCase(fetchCommitsByDay.rejected, (state, action) => {
 			state.commitsByDayStatus = 'rejected';
 			state.commitsByDayError = action.payload.response.data;
+		});
+		builder.addCase(fetchCommitsStats.pending, (state) => {
+			state.commitsStatsStatus = 'loading';
+			state.commitsStatsError = null;
+		});
+		builder.addCase(fetchCommitsStats.fulfilled, (state, action) => {
+				state.commitsStatsStatus = 'resolved';
+				state.commitsStatsError = null;
+				prepareCommitsStats(state);
+				state.commitsStats = countCommitsStats(state.commitsStats, action.payload.data);
+		});
+		builder.addCase(fetchCommitsStats.rejected, (state, action) => {
+			state.commitsStatsStatus = 'rejected';
+			state.commitsStatsError = action.payload.response.data;
 		});
 	}
 });

@@ -40,4 +40,8 @@ export default class githubService {
 			}
 		});
 	}
+
+	static async getCommitsStats() {
+		return $api.get('/github/commitstats');
+	}
 }
