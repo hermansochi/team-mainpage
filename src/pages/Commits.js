@@ -28,19 +28,19 @@ const CommitElement = ({idx, authorDate, authorName, message }) => {
     elementRef.current.position.z -= 0.05;
     
     //console.log(elementRef.current);
-    if (elementRef.current.myKey === '2022-12-06T05:10:22.000000ZHerman: .DS_Store banished!') {
+    //if (elementRef.current.myKey === '2022-12-06T05:10:22.000000ZHerman: .DS_Store banished!') {
       //console.log('Y-' + elementRef.current.position.y);
-      console.log('Z-' + elementRef.current.position.z);
-    }
+//      console.log('Z-' + elementRef.current.position.z);
+    //}
 
-    if (elementRef.current.position.z > -5) {
+    //if (elementRef.current.position.z > -5) {
       //elementRef.current.visibility = true;
-    }
+    //}
     
   });
   return (
     <group ref={elementRef} dispose={null}>
-      <Html  rotation={[-Math.PI / 4, 0, 0]} position={[0, -8 + (-idx * 4), idx * 4]} transform occlude>
+      <Html  rotation={[-Math.PI / 4, 0, 0]} position={[0, -8 + (-idx * 4), idx * 4]} transform>
         <div className="commit__element">
           <div className="date">{Iso8601toString(authorDate)}</div>
           <div className="details">{message}</div>

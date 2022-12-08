@@ -93,7 +93,7 @@ const prepareCommitsStats = (state) => {
 	const currentYear = new Date().getFullYear();
 	const currentMonth = new Date().getMonth();
 	const currentDay = new Date().getDate();
-	const days = Array.from({length: 90}, (_, i) => {
+	const days = Array.from({length: 120}, (_, i) => {
 		return {date: new Date(currentYear, currentMonth, currentDay - (i - 1)).toISOString().substring(0, 10),
 			commits: 0,
 			authors: null};
@@ -101,22 +101,6 @@ const prepareCommitsStats = (state) => {
 	
 	state.commitsStats = days;
 };
-
-function mergeArrayObjectsByDate(arr1, arr2) {
-	let start = 0;
-  let merge = [];
-
-  while(start < arr1.length) {
-    if(arr1[start].date === arr2[start].date) {
-         //pushing the merged objects into array
-        merge.push({...arr1[start],...arr2[start]});
-    }
-    //incrementing start value
-    start = start + 1;
-  }
-  return merge;
-}
-
 
 const countCommitsStats = (oldState, data) => {
 	let obj = Object.values(data.reduce((acc,curr)=>{

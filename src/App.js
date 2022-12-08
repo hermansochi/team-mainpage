@@ -8,7 +8,7 @@ import { fetchRepos,
         fetchContributors,
         fetchCollaborators } from './store/githubSlice';
 import Main from './pages/Main';
-import ContributionsGraph from './pages/ContributionsGraph';
+import CommitsGraph from './pages/CommitsGraph';
 import Commits from './pages/Commits';
 import { Routes, Route } from "react-router-dom";
 
@@ -43,7 +43,7 @@ export default function App() {
   return (
     <Routes>
       <Route path='/' element={<Main />} />
-      <Route path='/stats' element={<ContributionsGraph />} />
+      <Route path='/stats' element={<CommitsGraph />} />
       <Route path='/commits' element={<Commits />} />
     </Routes>
   );

@@ -39,7 +39,7 @@ const Overlay = () => {
 					(
 						<div style={{ position: 'absolute', top: 40, left: 40, fontSize: '13px' }}>
 							<h1 style={{ margin: 0, padding: 0, fontSize: '3em', fontWeight: 900, letterSpacing: '-0.05em' }}>
-								PRESS LMB & DRAG
+								PRESS MB & DRAG
 							</h1>
 						</div>
 					)
@@ -69,7 +69,7 @@ const Overlay = () => {
 					(
 						<div style={{ position: 'absolute', top: 40, right: 40, fontSize: '13px' }}>
 							<Link to="/">
-								<h1 style={{ margin: 0, padding: 0, fontSize: '3em', fontWeight: 900, letterSpacing: '-0.05em' }}>
+								<h1 style={{ zIndex: 200, margin: 0, padding: 0, fontSize: '3em', fontWeight: 900, letterSpacing: '-0.05em' }}>
 								&lt;&lt;BACK
 								</h1>
 							</Link>
