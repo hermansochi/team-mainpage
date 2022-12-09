@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 //export const API_URL = 'http://mkt.rsa.rogsibal.ru/api/v1';
-export const API_URL = 'http://api.localhost/api/v1';
+//export const API_URL = 'http://api.localhost/api/v1';
+
+export const API_URL = process.env.REACT_APP_API_URL;
 
 const $api = axios.create({
 	withCredentials: false,

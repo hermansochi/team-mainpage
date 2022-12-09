@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, Suspense } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Html, Stats, PresentationControls, OrbitControls, CameraShake } from "@react-three/drei";
-import { useSelector, useDispatch } from 'react-redux';
+import { Canvas } from "@react-three/fiber";
+import { Html, OrbitControls } from "@react-three/drei";
+import { useSelector } from 'react-redux';
 
 const Iso8601toString = (date) => {
   const options = {
@@ -82,7 +82,7 @@ const Element = ({date, commits, authors }) => {
 const MakeScene = ({commitsStats}) => {
   return (
     <group>
-      <ElementTitle title="COMMITS FOR THE LAST 120 DAYS"  onPointerOver={(e) => console.log('Title')} />
+      <ElementTitle title="COMMITS FOR THE LAST 120 DAYS" />
       <LessMore />
       {
         (commitsStats.length > 0) ?
@@ -99,7 +99,8 @@ const MakeScene = ({commitsStats}) => {
 };
 
 export default function CommitsGraph() {
-  const orbitRef = useRef();
+  //const orbitRef = useRef();
+  /*
   const config = {
     maxYaw: 0.1, // Max amount camera can yaw in either direction
     maxPitch: 0.1, // Max amount camera can pitch in either direction
@@ -111,16 +112,19 @@ export default function CommitsGraph() {
     decay: false, // should the intensity decay over time
     decayRate: 0.65, // if decay = true this is the rate at which intensity will reduce at
   };
+  */
   const { commitsStats } = useSelector((state) => state.github);
 
+  /*
   useEffect(() => {
     config.controls = orbitRef;
   }, [orbitRef]);
 
+  */
   return (
     <Canvas camera={{ position: [0, 0, 45], fov: 55 }}>
 
-      <fog attach="fog" args={['lightpink', 60, 100]} />
+      {/*<fog attach="fog" args={['lightpink', 60, 100]} />*/}
       <Suspense fallback={null}>
         <pointLight position={[0, 0, 5]} />
         <MakeScene commitsStats={commitsStats} />

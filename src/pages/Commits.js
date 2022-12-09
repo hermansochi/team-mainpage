@@ -1,7 +1,7 @@
 import React, { Suspense, useRef, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Html, Environment, Stats, TrackballControls, PresentationControls } from "@react-three/drei";
-import { useSelector, useDispatch } from 'react-redux';
+import { Html, PresentationControls } from "@react-three/drei";
+import { useSelector } from 'react-redux';
 
 const Iso8601toString = (date) => {
   const options = {

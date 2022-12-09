@@ -1,12 +1,12 @@
 version: "3.9"
 services:
-    frontend-node:
+    mainpage-node:
         build:
             context: docker/development/node
         environment:
             WDS_SOCKET_PORT: 0
             NODE_ENV: development
-            REACT_APP_API_URL: http://api.localhost/api
+            REACT_APP_API_URL: http://api.localhost/api/v1/
         volumes:
             - ./:/app:rw
         command: sh -c "until [ -f .ready ] ; do sleep 1 ; done && yarn start"
@@ -14,7 +14,7 @@ services:
         networks:
             - traefik-public
 
-    frontend-node-cli:
+    mainpage-node-cli:
         build:
             context: docker/development/node
         volumes:
@@ -22,7 +22,7 @@ services:
         networks:
             - traefik-public
 
-    frontend:
+    mainpage:
         build:
             context: docker/development/nginx
         networks:
@@ -30,9 +30,9 @@ services:
         labels:
             - traefik.enable=true
             - traefik.docker.network=traefik-public
-            - traefik.http.routers.frontend.entrypoints=http
-            - traefik.http.routers.frontend.rule=Host(`frontend.localhost`) || Host(`www.frontend.localhost`)
-            - traefik.http.services.frontend.loadBalancer.server.port=80
+            - traefik.http.routers.mainpage.entrypoints=http
+            - traefik.http.routers.mainpage.rule=Host(`frontend.localhost`) || Host(`front.localhost`)
+            - traefik.http.services.mainpage.loadBalancer.server.port=80
 
 networks:
     traefik-public:

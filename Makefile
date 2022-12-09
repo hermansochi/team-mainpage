@@ -41,30 +41,28 @@ frontend-clear:
 frontend-init: frontend-yarn-install
 
 frontend-yarn-install:
-	docker compose run --rm frontend-node-cli yarn install
+	docker compose run --rm mainpage-node-cli yarn install
 
 frontend-ready:
 	docker run --rm -v ${PWD}:/app -w /app alpine touch .ready
 
 frontend-lint:
-	docker compose run --rm frontend-node-cli yarn eslint
-	docker compose run --rm frontend-node-cli yarn stylelint
+	docker compose run --rm mainpage-node-cli yarn eslint
+	docker compose run --rm mainpage-node-cli yarn stylelint
 
 frontend-lint-fix:
-	docker compose run --rm frontend-node-cli yarn eslint-fix
+	docker compose run --rm mainpage-node-cli yarn eslint-fix
 
 frontend-test-watch:
-	docker compose run --rm frontend-node-cli yarn test
+	docker compose run --rm mainpage-node-cli yarn test
 
 frontend-test:
-	docker compose run --rm frontend-node-cli yarn test --watchAll=false
+	docker compose run --rm mainpage-node-cli yarn test --watchAll=false
 
 build: build-frontend
 
 build-frontend:
-	#docker --log-level=debug build --pull --file=docker/production/nginx/Dockerfile --tag=${REGISTRY}/frontend:${IMAGE_TAG} frontend
-	docker --log-level=warning build --pull --file=docker/production/nginx/Dockerfile --tag=${REGISTRY}/frontend:${IMAGE_TAG} frontend
-
+	docker --log-level=debug build --pull --file=docker/production/nginx/Dockerfile --tag=${REGISTRY}/mainpage:${IMAGE_TAG} ./
 
 try-build:
 	REGISTRY=localhost IMAGE_TAG=0 make build
@@ -72,19 +70,19 @@ try-build:
 push: push-frontend
 
 push-frontend:
-	docker push ${REGISTRY}/frontend:${IMAGE_TAG}
+	docker push ${REGISTRY}/mainpage:${IMAGE_TAG}
 
 deploy:
-	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'rm -rf site_${BUILD_NUMBER} && mkdir site_${BUILD_NUMBER}'
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'docker network create --driver=overlay --attachable traefik-public || true'
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'docker node update --label-add mainpage.manager=true $$(docker info -f "{{.Swarm.NodeID}}")'
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'rm -rf site_main_${BUILD_NUMBER} && mkdir site_main_${BUILD_NUMBER}'
 	envsubst < docker-compose-production.yml > docker-compose-production-env.yml
-	scp -o StrictHostKeyChecking=no -P ${PORT} docker-compose-production-env.yml deploy@${HOST}:site_${BUILD_NUMBER}/docker-compose.yml
+	scp -o StrictHostKeyChecking=no -P ${PORT} docker-compose-production-env.yml deploy@${HOST}:site_main_${BUILD_NUMBER}/docker-compose.yml
 	rm -f docker-compose-production-env.yml
-	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'mkdir site_${BUILD_NUMBER}/secrets'
-	scp -o StrictHostKeyChecking=no -P ${PORT} ${API_DB_PASSWORD_FILE} deploy@${HOST}:site_${BUILD_NUMBER}/secrets/api_db_password
-	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker stack deploy  --compose-file docker-compose.yml server --with-registry-auth --prune'
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd site_main_${BUILD_NUMBER} && docker stack deploy  --compose-file docker-compose.yml mainpage --with-registry-auth --prune'
 
 deploy-clean:
 	rm -f docker-compose-production-env.yml
 
 rollback:
-	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd site_${BUILD_NUMBER} && docker stack deploy --compose-file docker-compose.yml auction --with-registry-auth --prune'
+	ssh -o StrictHostKeyChecking=no deploy@${HOST} -p ${PORT} 'cd site_main_${BUILD_NUMBER} && docker stack deploy --compose-file docker-compose.yml mainpage --with-registry-auth --prune'
