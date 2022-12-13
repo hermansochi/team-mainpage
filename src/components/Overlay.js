@@ -15,10 +15,10 @@ const Overlay = () => {
 					contributors,
 					collaborators } = useSelector((state) => state.github);
 	return (
-			<div style={{ position: 'absolute', top: 0, left: 0, pointerEvents: 'none', width: '100%', height: '100%' }}>
+			<div className="overlay">
 				{ (location.pathname === '/') ?
 					(
-						<div style={{ position: 'absolute', top: 40, left: 40, fontSize: '13px' }}>
+						<div className="overlay__contributors__container">
 							{(contributors.length > 10) ? 10 : contributors.length} most active contributors:
 							{
 								(contributors.length > 0) ?
@@ -37,8 +37,8 @@ const Overlay = () => {
 					)
 					:
 					(
-						<div style={{ position: 'absolute', top: 40, left: 40, fontSize: '13px' }}>
-							<h1 style={{ margin: 0, padding: 0, fontSize: '3em', fontWeight: 900, letterSpacing: '-0.05em' }}>
+						<div className="overlay__contributors__container">
+							<h1 className="overlay__small__header__left">
 								PRESS MB & DRAG
 							</h1>
 						</div>
@@ -47,9 +47,9 @@ const Overlay = () => {
 				
 				{ (location.pathname === '/') ?  
 					(
-						<div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate3d(-50%,-50%,0)' }}>
+						<div className="overlay__big__header__container">
 							<Link to="/stats">
-								<h1 style={{ margin: 0, padding: 0, fontSize: '10em', fontWeight: 900, letterSpacing: '-0.05em' }}>
+								<h1 className="overlay__big__header">
 									HERMAN.TEAM
 								</h1>
 							</Link>
@@ -67,9 +67,9 @@ const Overlay = () => {
 					)
 					:
 					(
-						<div style={{ position: 'absolute', top: 40, right: 40, fontSize: '13px' }}>
+						<div className="overlay__another__container">
 							<Link to="/">
-								<h1 style={{ zIndex: 200, margin: 0, padding: 0, fontSize: '3em', fontWeight: 900, letterSpacing: '-0.05em' }}>
+								<h1 className="overlay__small__header__right">
 								&lt;&lt;BACK
 								</h1>
 							</Link>
@@ -79,7 +79,8 @@ const Overlay = () => {
 
 				{ (location.pathname === '/') ?
 					(
-					<div style={{ position: 'absolute', bottom: 40, left: 40, fontSize: '13px' }}>
+					<div className="overlay__repos__container ">
+						<div className="overlay__repos">
 						{(repos.length > 10) ? 10 : repos.length} last changed repos:
 						{
 							(repos.length > 0) ?
@@ -87,6 +88,7 @@ const Overlay = () => {
 							:
 								null
 						}
+						</div>
 					</div>
 					)
 					: null

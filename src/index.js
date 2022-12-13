@@ -13,7 +13,7 @@ ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
       <App />
-      <Overlay />
+      {/*<Overlay />*/}
     </BrowserRouter>
   </Provider>,
   rootElement
