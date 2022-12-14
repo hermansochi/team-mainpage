@@ -123,7 +123,6 @@ export default function CommitsGraph() {
   */
   return (
     <Canvas camera={{ position: [0, 0, 45], fov: 55 }}>
-
       {/*<fog attach="fog" args={['lightpink', 60, 100]} />*/}
       <Suspense fallback={null}>
         <pointLight position={[0, 0, 5]} />

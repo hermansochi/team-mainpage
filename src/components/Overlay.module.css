@@ -2,12 +2,10 @@
   display: grid; 
 
   grid-template-rows: 1fr 1fr 1fr;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 50% 50%;
   
   gap: 0px;
   height: 100%;
-  
-  
 }
 
 .left_top_item {
@@ -35,7 +33,6 @@
   display: flex;
   justify-content: end;
   align-items: top;
-  
 }
 
 .left_bottom_item {
@@ -50,7 +47,6 @@
   display: flex;
   justify-content: start;
   align-items: end;
-  
 }
 
 .right_bottom_item {
@@ -65,7 +61,6 @@
   display: flex;
   justify-content: end;
   align-items: end;
-  
 }
  
 .header_item {
@@ -78,6 +73,7 @@
   margin: 10px;
   
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   

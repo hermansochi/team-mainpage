@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 
 const Iso8601toString = (date) => {
 	let isoDateTime = new Date(date);
@@ -7,10 +8,9 @@ const Iso8601toString = (date) => {
 
 const LastCommitInfo = (props) => {
 		return (
-			<div>
-				Last commit by { props.author_name } at {Iso8601toString(props.author_date)}
-				&nbsp;Commit: {props.message}
-			</div>
+			<>
+				Last commit by { props.author_name }: <Link to="/commits">{props.message}</Link> 
+			</>
 		);
 
 };

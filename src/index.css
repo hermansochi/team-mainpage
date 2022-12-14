@@ -167,51 +167,6 @@ button:active {
   background-color: rgba(0, 255, 255, 0.75);
 }
 
-img{
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-ul{
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.avatar__container{
-  max-width: auto;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-}
-
-.avatar__list {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.avatar__item{
-  border-radius: 50%;
-  border: 5px solid rgba(120, 72, 136, .2);
-  margin-right: -50px;
-}
-
-.avatar__item:hover{
-  position: relative;
-  border-color: rgba(227, 140, 154, .8);
-  z-index: 10;
-  transform: scale(1.1);
-  filter: drop-shadow(0 0 20px rgba(227, 140, 154, 1));
-}
-
-.avatar__img{
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
 .less_more_container {
   display: flex;
   flex-wrap: nowrap;
