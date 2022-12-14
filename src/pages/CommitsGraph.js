@@ -1,7 +1,9 @@
-import React, { useRef, useEffect, Suspense } from "react";
-import { Canvas } from "@react-three/fiber";
-import { Html, OrbitControls } from "@react-three/drei";
+import React, { useRef, useEffect, Suspense, useState } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Html, OrbitControls, CameraShake } from "@react-three/drei";
 import { useSelector } from 'react-redux';
+import * as THREE from 'three';
+import styles from './CommitsGraph.module.css';
 
 const Iso8601toString = (date) => {
   const options = {
@@ -41,7 +43,7 @@ const ElementTitle = ({title }) => {
 
   return (
       <Html rotation={[0, 0, 0]} position={[-9, 16, 0]} transform>
-        <div className="element_title">
+        <div className={styles.title}>
           { title }
         </div>
       </Html>
@@ -67,23 +69,25 @@ const Element = ({date, commits, authors }) => {
   } else {
     bgColor = 'rgba(57, 211, 83, 0.9)';
   }
+
+  let authorsNames = authors.slice(0, 3).map((item) => <div key={date + item}>{item}</div>);
+
   return (
       <Html rotation={[0, 0, 0]} position={[posX, posY, 0]} transform>
-        <div className="element"
+        <div className={styles.element}
           style={{backgroundColor: bgColor}}>
-          <div className="date">{(commits === 0) ? null : Iso8601toString(date)}</div>
-          <div className="commits">{(commits === 0) ? null : commits}</div>
-          <div className="authors">{(commits === 0) ? null : authors}</div>
+          <div className={styles.date}>{(commits === 0) ? null : Iso8601toString(date)}</div>
+          <div className={styles.commits}>{(commits === 0) ? null : commits}</div>
+          <div className={styles.authors}>{(commits === 0) ? null : authorsNames}</div>
         </div>
       </Html>
   );
 };
 
 const MakeScene = ({commitsStats}) => {
+  const group = useRef();
   return (
-    <group>
-      <ElementTitle title="COMMITS FOR THE LAST 120 DAYS" />
-      <LessMore />
+    <group ref={group}>
       {
         (commitsStats.length > 0) ?
             commitsStats.map((item) => <Element key={item.date}
@@ -94,34 +98,16 @@ const MakeScene = ({commitsStats}) => {
         :
           null
       } 
+      <ElementTitle title="COMMITS FOR THE LAST 120 DAYS" />
+      <LessMore />
     </group>
   );
 };
 
+
 export default function CommitsGraph() {
-  //const orbitRef = useRef();
-  /*
-  const config = {
-    maxYaw: 0.1, // Max amount camera can yaw in either direction
-    maxPitch: 0.1, // Max amount camera can pitch in either direction
-    maxRoll: 0.1, // Max amount camera can roll in either direction
-    yawFrequency: 0.1, // Frequency of the the yaw rotation
-    pitchFrequency: 0.1, // Frequency of the pitch rotation
-    rollFrequency: 0.1, // Frequency of the roll rotation
-    intensity: 1, // initial intensity of the shake
-    decay: false, // should the intensity decay over time
-    decayRate: 0.65, // if decay = true this is the rate at which intensity will reduce at
-  };
-  */
   const { commitsStats } = useSelector((state) => state.github);
-
-  /*
-  useEffect(() => {
-    config.controls = orbitRef;
-  }, [orbitRef]);
-
-  */
-  return (
+   return (
     <Canvas camera={{ position: [0, 0, 45], fov: 55 }}>
       {/*<fog attach="fog" args={['lightpink', 60, 100]} />*/}
       <Suspense fallback={null}>
@@ -129,7 +115,7 @@ export default function CommitsGraph() {
         <MakeScene commitsStats={commitsStats} />
       </Suspense>
       {/*<Stats />*/}
-      <OrbitControls makeDefault />   
+      <OrbitControls makeDefault />
     </Canvas>
   );
 }

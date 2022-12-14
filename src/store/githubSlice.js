@@ -96,7 +96,7 @@ const prepareCommitsStats = (state) => {
 	const days = Array.from({length: 120}, (_, i) => {
 		return {date: new Date(currentYear, currentMonth, currentDay - (i - 1)).toISOString().substring(0, 10),
 			commits: 0,
-			authors: null};
+			authors: []};
 	});
 	
 	state.commitsStats = days;
@@ -104,7 +104,8 @@ const prepareCommitsStats = (state) => {
 
 const countCommitsStats = (oldState, data) => {
 	let obj = Object.values(data.reduce((acc,curr)=>{
-		(acc[curr.date] = acc[curr.date] || {date: curr.date, commits: 0, authors: null}).commits += curr.commits;
+		(acc[curr.date] = acc[curr.date] || {date: curr.date, commits: 0, authors: []}).commits += curr.commits;
+		(acc[curr.date] = acc[curr.date] || {date: curr.date, commits: 0, authors: []}).authors.push(curr.author_name);
 		return acc;
 	}, {}));
 
