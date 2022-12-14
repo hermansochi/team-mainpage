@@ -25,7 +25,6 @@ ul{
 .avatar__item{
   border-radius: 50%;
   border: 5px solid rgba(120, 72, 136, .2);
-  margin-right: -50px;
 }
 
 .avatar__item:hover{
@@ -42,3 +41,16 @@ ul{
   object-fit: cover;
   border-radius: 50%;
 }
+
+@media (min-width: 320px) {
+	.avatar__img{
+		width: 80px;
+		height: 80px;
+	}
+
+	.avatar__item{
+		margin-right: -40px;
+	}
+
+}
+
