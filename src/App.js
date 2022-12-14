@@ -10,7 +10,6 @@ import { fetchRepos,
 import Main from './pages/Main';
 import CommitsGraph from './pages/CommitsGraph';
 import Commits from './pages/Commits';
-import OverlayTest from './pages/OverlayTest';
 import { Routes, Route } from "react-router-dom";
 
 export default function App() {
@@ -46,7 +45,6 @@ export default function App() {
       <Route path='/' element={<Main />} />
       <Route path='/stats' element={<CommitsGraph />} />
       <Route path='/commits' element={<Commits />} />
-      <Route path='/test' element={<OverlayTest />} />
     </Routes>
   );
 }

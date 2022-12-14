@@ -14,7 +14,7 @@ body,
 
 body {
   overscroll-behavior-y: none;
-  font-family: 'Roboto', sans-serif;
+  font-family: sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   color: #ddd;
@@ -38,18 +38,6 @@ a:hover{
 
 svg {
   fill: #ddd;
-}
-
-h1 {
-  background: linear-gradient(30deg, #c850c0, #ffcc70);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  z-index: 110;
-}
-
-h1:hover {
-  transition: .3s ease-in-out;
-  transform: scale(1.05);
 }
 
 .App {
@@ -248,80 +236,3 @@ ul{
   border: 1px solid rgba(9, 11, 13, 1);
 }
 
-.overlay {
-  border: solid 10px;
-  border-color: #c850c0;
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  width: 100%;
-  height: 100%;
-}
-
-.overlay__contributors__container {
-  border: solid 1px;
-  border-color: #c850c0;
-  position: absolute;
-  top: 40;
-  left: 40;
-  font-size: 1em;
-}
-
-.overlay__small__header__left {
-  margin: 0;
-  padding: 0;
-  font-size: 3em;
-  font-weight: 900;
-  letter-spacing: -0.05em;
-}
-
-.overlay__another__container {
-  border: solid 1px;
-  border-color: #ffcc70;
-  position: absolute;
-  top: 40;
-  right: 40;
-  font-size: 13px;
-}
-
-.overlay__small__header__right {
-  margin: 0;
-  padding: 0;
-  font-size: 3em;
-  font-weight: 900;
-  letter-spacing: -0.05em;
-}
-.overlay__repos__container {
-  border: solid 11px;
-  border-color: green;
-  position: relative;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.overlay__repos {
-  border: solid 11px;
-  border-color: red;
-  position: absolute;
-  bottom: 220;
-  left: 40;
-  font-size: 13px;
-}
-
-.overlay__big__header__container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate3d(-50%,-50%,0);
-}
-
-.overlay__big__header {
-  margin: 0;
-  padding: 0;
-  font-size: 10em;
-  font-weight: 900;
-  letter-spacing: -0.05em;
-}
